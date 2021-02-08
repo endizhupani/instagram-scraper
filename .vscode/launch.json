@@ -1,0 +1,18 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "eurowings","-u" ,"tucci_tocci", "-p", "Ballerina95?", "-t", "image", "-m", "500", "--comments", "-T", "{urlname}.{datetime}"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

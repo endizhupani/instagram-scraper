@@ -11,4 +11,4 @@ insta_args.txt
 README.rst
 *.sh
 
-./instagram_scraper/insta-scraped-data**
+instagram_scraper/insta-scraped-data

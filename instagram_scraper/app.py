@@ -387,7 +387,7 @@ class InstagramScraper(object):
             dst = './' + "/insta-scraped-data/"+username
         else:
             if self.retain_username:
-                dst = self.destination + "/insta-scraped-data/"+ username
+                dst = self.destination + "/insta-scraped-data/" + username
             else:
                 dst = self.destination + "/insta-scraped-data"
 
@@ -476,7 +476,7 @@ class InstagramScraper(object):
     def query_comments_gen(self, shortcode, end_cursor=''):
         """Generator for comments."""
         comments, end_cursor = self.__query_comments(shortcode, end_cursor)
-
+        print('\nFetching comments')
         if comments:
             try:
                 while True:
@@ -484,6 +484,9 @@ class InstagramScraper(object):
                         yield item
 
                     if end_cursor:
+                        seconds = random.randrange(2, 4)
+                        print('\nWaiting a couple of seconds...')
+                        time.sleep(seconds)
                         comments, end_cursor = self.__query_comments(
                             shortcode, end_cursor)
                     else:
@@ -550,8 +553,8 @@ class InstagramScraper(object):
                         if item.get("location") is None or self.get_key_from_value(self.filter_locations, item["location"].get("id")) is None:
                             continue
                     if ((item['is_video'] is False and 'image' in self.media_types) or
-                                (item['is_video']
-                                 is True and 'video' in self.media_types)
+                            (item['is_video']
+                             is True and 'video' in self.media_types)
                             ) and self.is_new_media(item):
                         future = executor.submit(
                             self.worker_wrapper, self.download, item, dst)
@@ -958,11 +961,19 @@ class InstagramScraper(object):
             if self.maximum != 0 and iter >= self.maximum:
                 break
             if (iter % 50 == 0):
-                minutes_to_sleep = random.randrange(5, 10)
+                minutes_to_sleep = random.randrange(45, 60)
+                print('\nPhew, not caught by instagram this time. Taking a break of {} minutes to avoid suspision'.format(
+                    minutes_to_sleep))
+
                 # sleep for a random number of min between 5 and 10
                 time.sleep(60*minutes_to_sleep)
+            elif(iter % 3 == 0):
+                seconds_to_sleep = random.randrange(10, 20)
+                print('\nThis is boring, I\'ll be back in {} seconds.'.format(
+                    seconds_to_sleep))
+                time.sleep(seconds_to_sleep)
             else:
-                seconds_to_sleep = random.randrange(5, 10)
+                seconds_to_sleep = random.randrange(3, 8)
                 time.sleep(seconds_to_sleep)
 
     def get_shared_data_userinfo(self, username=''):
